@@ -65,7 +65,7 @@ class Mgeneral extends CI_Model
 	#ex akses : $this->mgeneral->update(array('field1'=>'data','field2'=>'data'),array_data_udate,nama_tabel);
 	function update($where, $data, $tabel){
 	  $this->db->where($where);
-	  $this->db->update($tabel, $data);
+	  return $this->db->update($tabel, $data);
 	}
 
 	#fungsi hapus data

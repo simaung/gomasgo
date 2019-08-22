@@ -42,4 +42,14 @@ if (!function_exists('verify_request')) {
         }
         
     }
+
+    if (!function_exists('data_user_login')) {
+        function data_user_login() {
+            $CI = & get_instance();
+
+            $CI->db->select('id, role, nama, email, foto, kode_user');
+            $CI->db->where('id', verify_request()->id);
+            return $CI->db->get('user')->row();
+        }
+    }
 }
