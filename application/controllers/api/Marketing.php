@@ -18,29 +18,31 @@ class Marketing extends REST_Controller
         $this->data_token = verify_request();
     }
 
-    public function index_get($id = null)
+    public function index_get()
     {
-        // print_r($this->data_token);die;
-        // $id = $this->get('id');
-
+        $id = $this->get('id');
         if($id === null)
         {
-            $marketing = $this->Mmarketing->getMarketing(); 
+            $marketing = $this->Mmarketing->getMarketing();
         }else{
-            $marketing = $this->Mmarketing->getMarketing($id); 
+            $marketing = $this->Mmarketing->getMarketing($id);
+            if($marketing)
+            {
+                $marketing[0]->foto         = ($marketing[0]->foto != null)?base_url().'static/uploads/'.$marketing[0]->foto:null;
+                $marketing[0]->foto_ktp     = ($marketing[0]->foto_ktp != null)?base_url().'static/uploads/'.$marketing[0]->foto_ktp:null;
+                $marketing[0]->foto_paspor  = ($marketing[0]->foto_paspor != null)?base_url().'static/uploads/'.$marketing[0]->foto_paspor:null;
+                $marketing[0]->foto_kk      = ($marketing[0]->foto_kk != null)?base_url().'static/uploads/'.$marketing[0]->foto_kk:null;
+    
+                $marketing[0]->list_marketing = $this->Mmarketing->listMarketing($marketing[0]->kode_user);
+                $marketing[0]->list_jamaah = $this->Mmarketing->listJamaah($id);
+            }
         }
 
         if($marketing)
         {
-            $this->response([
-                'status'    => TRUE,
-                'data'      => $marketing
-            ], REST_Controller::HTTP_OK);
+            $this->response(['status' => parent::HTTP_OK,'data' => $marketing], parent::HTTP_OK);
         }else{
-            $this->response([
-                'status'    => FALSE,
-                'message'   => 'marketing not found'
-            ], REST_Controller::HTTP_NOT_FOUND);
+            $this->response(['message' => 'marketing not found'], parent::HTTP_NOT_FOUND);
         }
     }
 }
