@@ -27,7 +27,7 @@ class Auth extends REST_Controller
 
         $user_id = $this->Muser->check_user($credential);
         if($user_id < 1){
-            $this->response(['msg' => 'user tidak ditemukan'], parent::HTTP_NOT_FOUND);
+            $this->response(['message' => 'user tidak ditemukan'], parent::HTTP_NOT_FOUND);
         }else{
             $user_data = $this->Muser->login($user_id,$password);
             if(is_array($user_data)){
@@ -39,10 +39,10 @@ class Auth extends REST_Controller
                     $response = ['status' => $status, 'token' => $token];
                     $this->response($response, $status);
                 }else{
-                    $this->response(['msg' => 'akun anda belum aktif, silahkan kontak admin'], parent::HTTP_NOT_FOUND);
+                    $this->response(['message' => 'akun anda belum aktif, silahkan kontak admin'], parent::HTTP_NOT_FOUND);
                 }
             }else{
-                $this->response(['msg' => 'username dan password tidak valid'], parent::HTTP_NOT_FOUND);
+                $this->response(['message' => 'username dan password tidak valid'], parent::HTTP_NOT_FOUND);
             }            
         }
     }
@@ -60,7 +60,7 @@ class Auth extends REST_Controller
         );        
         
 		if($this->Muser->check_email($var['email'])){
-			$this->response(['msg' => 'Email telah digunakan'], parent::HTTP_BAD_REQUEST);
+			$this->response(['message' => 'Email telah digunakan'], parent::HTTP_BAD_REQUEST);
 		}else{
 			if($var['referal']!=""):
 				$cekReferal = $this->Mgeneral->getWhere(array('kode_user'=>$var['referal']),"user");
@@ -76,10 +76,10 @@ class Auth extends REST_Controller
                 $email_send = $this->send_email($data['user']->email,$body_message);
 
                 $status = parent::HTTP_OK;
-                $response = ['status' => $status, 'msg' => 'Pendaftaran Member Selesai, Silahkan Cek Email Untuk Aktivasi Akun'];
+                $response = ['status' => $status, 'message' => 'Pendaftaran Member Selesai, Silahkan Cek Email Untuk Aktivasi Akun'];
                 $this->response($response, $status);
 			}else{
-                $this->response(['msg' => 'Terjadi Kesalahan, Silahkan Hubungi Admin'], parent::HTTP_BAD_REQUEST);
+                $this->response(['message' => 'Terjadi Kesalahan, Silahkan Hubungi Admin'], parent::HTTP_BAD_REQUEST);
 			}
 		}
     }
@@ -96,7 +96,7 @@ class Auth extends REST_Controller
             $response = $this->send_email($email,$body_message);
             
             $status = parent::HTTP_OK;
-            $response = ['status' => $status, 'msg' => 'Link reset password telah dikirim ke email anda.'];
+            $response = ['status' => $status, 'message' => 'Link reset password telah dikirim ke email anda.'];
             $this->response($response, $status);
 		}else{
             $this->response(['message' => 'Email tidak terdaftar di system.'], parent::HTTP_BAD_REQUEST);

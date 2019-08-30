@@ -21,7 +21,7 @@ if (!function_exists('verify_request')) {
                 $data = AUTHORIZATION::validateToken($token);
                 if($data === false){
                     $status = REST_Controller::HTTP_UNAUTHORIZED;
-                    $response = ['status' => $status, 'msg' => 'Unauthorized Access!'];
+                    $response = ['status' => $status, 'message' => 'Unauthorized Access!'];
                     $CI->response($response, $status);
 
                     exit();
@@ -32,12 +32,12 @@ if (!function_exists('verify_request')) {
                 // Token is invalid
                 // Send the unauthorized access message
                 $status = REST_Controller::HTTP_UNAUTHORIZED;
-                $response = ['status' => $status, 'msg' => 'Unauthorized Access!'];
+                $response = ['status' => $status, 'message' => 'Unauthorized Access!'];
                 $CI->response($response, $status);
             }
         }else{
             $status = REST_Controller::HTTP_UNAUTHORIZED;
-            $response = ['status' => $status, 'msg' => 'Unauthorized Access!'];
+            $response = ['status' => $status, 'message' => 'Unauthorized Access!'];
             $CI->response($response, $status);
         }
         
