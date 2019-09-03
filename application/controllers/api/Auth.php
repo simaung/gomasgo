@@ -33,7 +33,7 @@ class Auth extends REST_Controller
             if(is_array($user_data)){
 				if ($user_data['status'] == 'aktif') {
                     // Create a token from the user data and send it as reponse
-                    $token = AUTHORIZATION::generateToken(['id' => $user_data['id']]);
+                    $token = AUTHORIZATION::generateToken(['id' => $user_data['id'], 'kode_user' => $user_data['kode_user']]);
                     // Prepare the response
                     $status = parent::HTTP_OK;
                     $response = ['status' => $status, 'token' => $token];
