@@ -33,13 +33,15 @@ class Auth extends REST_Controller
             if(is_array($user_data)){
 				if ($user_data['status'] == 'aktif') {
                     // Create a token from the user data and send it as reponse
-                    $token = AUTHORIZATION::generateToken(['id' => $user_data['id'], 'kode_user' => $user_data['kode_user']]);
+                    $token = AUTHORIZATION::generateToken(['id' => $user_data['id']]);
                     // Prepare the response
                     $status = parent::HTTP_OK;
-                    $response = ['status' => $status, 'token' => $token];
+                    $kode = $user_data['kode_user'];
+                    $response = ['status' => $status, 'kode' => $kode, 'message' => 'Login berhasil', 'token' => $token];
                     $this->response($response, $status);
                 }else{
-                    $this->response(['message' => 'akun anda belum aktif, silahkan kontak admin'], parent::HTTP_NOT_FOUND);
+                    $status = parent::HTTP_NOT_FOUND;
+                    $this->response(['status' => $status,'message' => 'akun anda belum aktif, silahkan kontak admin'], parent::HTTP_OK);
                 }
             }else{
                 $this->response(['message' => 'username dan password tidak valid'], parent::HTTP_NOT_FOUND);
